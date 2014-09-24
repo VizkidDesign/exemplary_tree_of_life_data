@@ -1,13 +1,25 @@
 ---
   -
-    name: "Origin of Life"
-    desc: "The origin of life began approximately 3.6-3.8 billion years ago."
-    image:
-     group: "origin"
-    children:
+    name: "Origin of Life" # REQUIRED. This is the name we'll display on the sidebar when hovering over this node.
+    desc: "The origin of life began approximately 3.6-3.8 billion years ago." # REQUIRED. This is the description we'll display
+    image: "http://phylopic.org/assets/images/submissions/6b79f4f2-3c34-4130-9e60-4ba2fe68ff48.svg" # This is an image we use to represent this node. If no image field is included, we'll automatically grab an image from the nearest ancestor.
+    group: "origin" # This field is only necessary when we want to change the color of a node (which we do for origin, bacteria, archaea, and eukarya). If this field is absent, we'll automatically use the group of the nearest ancestor.
+    children: # This shoud always be the last attribute, unless a node doesn't have any children.
       -
         name: "Bacteria"
         desc: "Bacteria are tiny things."
-        image:
         group: "bacteria"
-        extinct: true
+        extinct: true # Note that we never need to include an "extinct: false", since species are assumed to be alive unless "extinct: true" if specified.
+        children:
+          -
+            name: "Eukarya"
+            desc: "TBD"
+            group: "eukarya"
+            cluster_root: true # This is how we tell the visualization that the children of this node should be hidden by default, but then upon click, we'll hide its ancestors and show its children, once again stopping until we hit another cluster root.
+      -
+        name: "Archaea"
+        desc: "TBD"
+        group: "archaea"
+        children: 
+          -
+            link_to: "Eukarya" # This is a special attribute that should only be used once on the tree. It tells our visualization that Eukarya already exists somewhere else on this tree and that Archaea is an additional parent. We have to do this, because otherwise the program gets super grumpy about us violating a normal tree structure. Also, it keeps us from having to repeat ourselves by listing out Eukarya and all of its children twice."
